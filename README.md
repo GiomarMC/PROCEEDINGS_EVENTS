@@ -3,7 +3,7 @@ El propósito de este proyecto es desarrollar un **Sistema de Publicación de Pr
 
 #### 2. Funcionalidades
 #### Diagrama de casos de uso 
-![Ver imagen](#images/casos_de_uso.png)
+![Ver imagen](images/casos_de_uso.png)
 - **Funcionalidades de Alto Nivel**:
   - **Gestión de Eventos**: Creación y configuración de eventos, gestión de fechas importantes y temas de interés.
   - **Gestión de Artículos**: Subida de artículos, revisión por pares (autor-documento).
@@ -12,15 +12,15 @@ El propósito de este proyecto es desarrollar un **Sistema de Publicación de Pr
 
 #### 3. Modelo de Dominio
 #### Diagrama de Clases y Módulos
-![Ver diagrama de clases](#images/diagrama_clases.png)
-![Ver diagrama](#images/diagrama1.png)
-![Ver diagrama](#images/diagrama2.png)
-![Ver diagrama](#images/diagrama3.png)
+![Ver diagrama de clases](images/diagrama_clases.png)
+![Ver diagrama](images/diagrama1.png)
+![Ver diagrama](images/diagrama2.png)
+![Ver diagrama](images/diagrama3.png)
   - Describe las entidades principales del sistema como `Evento`, `Autor`, `Documento`, `Edición`, `ConvocatoriaOrg`, entre otras, y sus relaciones.
 
 #### 4. Arquitectura y Patrones
 #### Diagrama de Componentes o Paquetes
-![Ver diagrama](#images/arquitectura.png)
+![Ver diagrama](images/arquitectura.png)
   - Describe la arquitectura del sistema, incluyendo la separación en capas y los módulos de cada capa.
 
 ### 5. Prácticas de Codificación Limpia Aplicadas
