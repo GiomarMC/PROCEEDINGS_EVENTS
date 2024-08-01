@@ -121,20 +121,54 @@ def crear(self, edicion: Edicion):
 ```
 
 **c. Pipeline**
-
-Este estilo se aplica cuando se realiza una serie de pasos secuenciales, como la configuración de rutas en el sistema.
-
 ```python
-def configure_routes(app):
-    """Configura las rutas de la aplicación."""
-    configurar_rutas_documentos(app)
-    configurar_rutas_eventos(app)
-    configurar_rutas_ediciones(app)
-    configurar_rutas_expositor(app)
-    configurar_rutas_convocatorias(app)
-    configurar_rutas_inscripciones(app)
-    configurar_rutas_autores(app)
+@app.route('/evento', methods=['POST'])
+def crear_evento():
+    try:
+        # 1. Parseo de los datos de la solicitud
+        data = request.get_json()
+        nombre = data.get('nombre')
+        fecha_str = data.get('fecha')
+        descripcion = data.get('descripcion')
+        hora_str = data.get('hora')
+        lugar = data.get('lugar')
+        edicion_id = data.get('edicion_id')
+
+        # 2. Conversión de fecha y hora a objetos datetime
+        fecha = datetime.strptime(fecha_str, "%Y-%m-%d") if fecha_str else None
+        hora = datetime.strptime(hora_str, "%H:%M:%S").time() if hora_str else None
+
+        # 3. Validación de datos adicionales (opcional)
+        if edicion_id is not None and not edicion_servicio.obtener_edicion(edicion_id):
+            return jsonify({"error": "Edición no encontrada."}), 400
+        
+        # 4. Creación de la entidad de negocio
+        evento = Evento(
+            nombre=nombre,
+            fecha=fecha,
+            descripcion=descripcion,
+            hora=hora,
+            lugar=lugar,
+            edicion_id=edicion_id
+        )
+
+        # 5. Llamada al servicio para persistir los datos
+        evento_servicio.crear_evento(evento)
+
+        # 6. Respuesta con el recurso creado
+        return jsonify(evento.to_dict()), 201
+    except Exception as e:
+        # 7. Manejo de errores
+        return jsonify({"error": f"Error al crear evento: {str(e)}"}), 400
 ```
+
+En este pipeline:
+1. **Parseo de datos**: Se extraen y validan los datos de la solicitud JSON.
+2. **Conversión de tipos**: Se convierten las cadenas de fecha y hora en objetos `datetime`.
+3. **Validación**: Se verifica la existencia de la edición, si se proporciona un `edicion_id`.
+4. **Creación de la entidad**: Se crea un objeto de dominio `Evento` con los datos procesados.
+5. **Persistencia**: Se guarda el objeto en la base de datos a través del servicio correspondiente.
+6. **Respuesta**: Se devuelve una respuesta HTTP con el recurso creado o con un mensaje de error.
 
 ### 7. Principios SOLID Aplicados
 
