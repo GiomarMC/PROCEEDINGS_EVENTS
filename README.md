@@ -145,16 +145,11 @@ def parse_autor(autor_data: Dict) -> Optional[Autor]:
 El manejo adecuado de errores y excepciones es fundamental para la robustez del sistema. Se captura y maneja las excepciones de manera que el sistema pueda recuperarse o notificar adecuadamente al usuario.
 
 ```python
-def crear(self, edicion: Edicion):
-    """Agrega una nueva edición a la base de datos."""
-    try:
-        edicion_modelo = EdicionModelo.from_domain(edicion)
-        db.session.add(edicion_modelo)
-        db.session.commit()
-        edicion.id = edicion_modelo.id
-    except Exception as e:
-        db.session.rollback()
-        raise RuntimeError(f"Error al crear la edición: {str(e)}")
+def crear_documento(self, documento: Documento) -> None:
+        try:
+            self.documento_repo.crear(documento)
+        except Exception as ex:
+            raise DocumentoRepositoryError(f"Error al crear documento: {str(ex)}")
 ```
 
 **c. Pipeline**
