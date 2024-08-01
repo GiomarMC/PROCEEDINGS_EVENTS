@@ -2,7 +2,7 @@
 El propósito de este proyecto es desarrollar un **Sistema de Publicación de Proceedings de Eventos**. Este sistema permite gestionar la organización de eventos académicos, incluyendo la gestión de artículos, autores, ediciones, convocatorias y programas. Facilita a los usuarios subir artículos, gestionar la información de los eventos, y proporciona una plataforma para la inscripción y participación en dichos eventos.
 
 #### 2. Funcionalidades
-- **Diagrama de Casos de Uso**: 
+#### Diagrama de casos de uso 
 ![Ver imagen](#images/casos_de_uso.png)
 - **Funcionalidades de Alto Nivel**:
   - **Gestión de Eventos**: Creación y configuración de eventos, gestión de fechas importantes y temas de interés.
@@ -11,7 +11,7 @@ El propósito de este proyecto es desarrollar un **Sistema de Publicación de Pr
   - **Inscripciones**: Gestión de inscripciones para eventos y expositores.
 
 #### 3. Modelo de Dominio
-- **Diagrama de Clases y Módulos**: 
+#### Diagrama de Clases y Módulos
 ![Ver diagrama de clases](#images/diagrama_clases.png)
 ![Ver diagrama](#images/diagrama1.png)
 ![Ver diagrama](#images/diagrama2.png)
@@ -19,7 +19,7 @@ El propósito de este proyecto es desarrollar un **Sistema de Publicación de Pr
   - Describe las entidades principales del sistema como `Evento`, `Autor`, `Documento`, `Edición`, `ConvocatoriaOrg`, entre otras, y sus relaciones.
 
 #### 4. Arquitectura y Patrones
-- **Diagrama de Componentes o Paquetes**:
+#### Diagrama de Componentes o Paquetes
 ![Ver diagrama](#images/arquitectura.png)
   - Describe la arquitectura del sistema, incluyendo la separación en capas y los módulos de cada capa.
 
