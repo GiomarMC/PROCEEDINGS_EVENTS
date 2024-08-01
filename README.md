@@ -72,6 +72,43 @@ def parse_fecha(fecha_str: str) -> Optional[datetime]:
         return None
 ```
 
+
+**d. Funciones Pequeñas y Enfocadas**
+Dividir el código en funciones pequeñas que realicen una sola tarea específica. Esto facilita el mantenimiento y la reutilización del código.
+
+**Ejemplo:**
+```python
+def obtener_documento(id: int) -> Documento:
+    """Obtiene un documento por su ID."""
+    documento = documento_servicio.obtener_documento(id)
+    if documento:
+        return documento.to_dict()
+    else:
+        return None
+```
+
+**e. Validación de Entradas**
+La validación de entradas asegura que los datos que recibe el sistema sean correctos y esperados, lo cual es crucial para la seguridad y la estabilidad de la aplicación.
+
+**Ejemplo:**
+```python
+if edicion_id is not None:
+    if not edicion_servicio.obtener_edicion(edicion_id):
+        return jsonify({"error": "Edición no encontrada."}), 400
+```
+
+**f. Modularidad y Separación de Responsabilidades**
+Dividir la aplicación en módulos separados con responsabilidades claras mejora la organización del código y facilita su mantenimiento. Por ejemplo, tener diferentes servicios y repositorios para gestionar distintas partes de la aplicación.
+
+**Ejemplo:**
+```python
+from app.aplicacion.servicios.documento_servicio import DocumentoServicioImpl
+from app.infraestructura.repositorio.sqlite3.documento_repositorio_impl import DocumentoRepositorioImpl
+# Separación de responsabilidades entre servicios y repositorios
+```
+
+Estas prácticas, aplicadas correctamente, contribuyen a la creación de un código más limpio, mantenible y fácil de entender, lo que es esencial para el desarrollo de software de calidad.
+
 Estas prácticas y principios garantizan que el código sea fácil de entender, mantener y escalar.
 
 ### 6. Estilos de Programación Aplicados
@@ -121,6 +158,9 @@ def crear(self, edicion: Edicion):
 ```
 
 **c. Pipeline**
+
+El estilo de programación "Pipeline" se usa para construir cadenas de procesamiento de datos donde el resultado de una operación se pasa a la siguiente operación. En este contexto, el pipeline se ve en las operaciones de recuperación y actualización de documentos y autores.
+
 ```python
 @app.route('/evento', methods=['POST'])
 def crear_evento():
@@ -169,6 +209,57 @@ En este pipeline:
 4. **Creación de la entidad**: Se crea un objeto de dominio `Evento` con los datos procesados.
 5. **Persistencia**: Se guarda el objeto en la base de datos a través del servicio correspondiente.
 6. **Respuesta**: Se devuelve una respuesta HTTP con el recurso creado o con un mensaje de error.
+
+**d. Restful**
+
+Este estilo se basa en la arquitectura REST para exponer servicios web a través de endpoints HTTP. Las rutas se configuran para realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) en recursos.
+
+```python
+@app.route('/documentos/<int:id>', methods=['GET'])
+def obtener_documento(id: int):
+    """
+    Obtiene un documento por su identificador.
+
+    Args:
+        id (int): El identificador del documento.
+
+    Returns:
+        Response: Respuesta JSON con el documento, o error si no se encuentra.
+    """
+    documento = documento_controller.obtener_documento(id)
+    if documento:
+        return jsonify(documento.to_dict())
+    return documento_no_encontrado()
+```
+
+**e. Persistent-Tables**
+
+El estilo de programación "Persistent-Tables" se refiere al uso de modelos persistentes en bases de datos para representar entidades del dominio. En este caso, se utilizan modelos de SQLAlchemy para mapear los datos de los autores y documentos en la base de datos.
+
+```python
+class AutorModelo(db.Model):
+    __tablename__ = 'autores'
+    
+    id_autor = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nombre = db.Column(db.String(150), nullable=False)
+    email = db.Column(db.String(150), nullable=False, unique=True)
+    afiliacion = db.Column(db.String(50), nullable=True)
+    nacionalidad = db.Column(db.String(50), nullable=False)
+    area_interes = db.Column(db.String(50), nullable=False)
+    link_foto = db.Column(db.Text, nullable=False)
+
+    def to_dict(self):
+        return {
+            "id_autor": self.id_autor,
+            "nombre": self.nombre,
+            "email": self.email,
+            "afiliacion": self.afiliacion,
+            "nacionalidad": self.nacionalidad,
+            "area_interes": self.area_interes,
+            "link_foto": self.link_foto
+        }
+
+```
 
 ### 7. Principios SOLID Aplicados
 
